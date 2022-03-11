@@ -1,29 +1,43 @@
 import React, { Component } from 'react';
-import { Navbar, NavbarBrand } from 'reactstrap';
-import StaffList from './components/StaffListComponent';
+import { Route, Routes } from 'react-router-dom';
+import { DEPARTMENTS, STAFFS } from './shared/staffs';
 import './App.css';
-import { STAFFS } from './shared/staffs';
+import Header from './components/HeaderComponent';
+import StaffList from './components/ListInfomation';
+import StaffsInfomation from './components/StaffsInfomation';
+import Department from './components/Department';
+import StaffSalary from './components/StaffSalary';
+import Footer from './components/FooterComponent';
+
 
 class App extends Component {
 
   constructor(props) {
-     super(props);
+    super(props)
+    
+    this.state = {
+      staffId: null,
+      staffdepartment: null,
+    }
+  }
 
-     this.state = {
-       staffs: STAFFS,
-     };
-   }
+  onchangeStaffId(staffId) {
+    this.setState({ staffId: staffId })
 
-  render() {
-    return (
-      <div className="App">
-        <Navbar dark color="primary">
-          <div className='container-fluid'>
-            <NavbarBrand href='/'>Ứng dụng quản lý nhân sự v1.0 </NavbarBrand>
-          </div>
-        </Navbar>
-        <StaffList staffs={this.state.staffs} />
-      </div>
+} 
+render() {
+  return (
+    <div>
+      <Header />
+        <Routes>
+          <Route path='/' element = { <StaffList staffs = 
+                     {STAFFS} onClick = {(staffId) => this.onchangeStaffId(staffId) }/> }/>
+          <Route path={"/staff/" + this.state.staffId} element = {<StaffsInfomation staff={ STAFFS.filter((staff) => staff.id === this.state.staffId)[0] }/> }/>
+          <Route path="/department" element = {<Department apartments={DEPARTMENTS}/> }/>
+          <Route path="/salary" element = {<StaffSalary staffs={STAFFS} />}></Route>
+        </Routes>
+      <Footer />
+    </div>
     );
   }
 }
