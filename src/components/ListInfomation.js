@@ -16,7 +16,7 @@ class StaffList extends Component {
     render() {
         const list = this.props.staffs.map((staff) => {
             return (
-                <div key={staff.id} className="col-lg-2 col-md-3 col-sm-6">
+                <div key={staff.id} className="col-lg-2 col-md-4 col-sm-6">
                     <Link className="nav-link link-dark" to={"/staff/" + staff.id}>
                         <Card onClick={() => this.props.onClick(staff.id)}>
                             <CardImg src={staff.image} />
