@@ -28,7 +28,7 @@ class StaffList extends Component {
         });
 
         return (
-            <div className="container">
+            <div className="container-fluid">
                 <h4>Nhân Viên</h4><hr />
                 <div className="row mt-1">
                     {list}

@@ -15,20 +15,20 @@ class StaffsInfomation extends Component {
         const staff = this.props.staff;
             if (staff) {
                 return (
-                    <div className="col-lg-4 m-3 col-md-6 col-sm-12">
-                        <p className='m-2'><Link to='/'>Nhân viên</Link> / {staff.name}</p>
-                        <hr/>
-                    <Card style={{ clear: "left" }}>
-                        <CardImg className="cardd-img" src={staff.image} />
-                        <h4>Họ và tên : {staff.name}</h4>
-                        <li>Ngày sinh : {dateFormat(staff.doB, "dd/mm/yyyy")}</li>
-                        <li>Ngày vào công ty : {dateFormat(staff.startDate, "dd/mm/yyyy")}</li>
-                        <li>Phòng ban : {staff.department.name}</li>
-                        <li>Chức danh : {staff.role}</li>
-                        <li>Số ngày nghỉ còn lại : {staff.annualLeave}</li>
-                        <li>Số ngày đã làm thêm : {staff.overTime}</li>
-                    </Card>
-                </div>
+                    <div className="col-lg-3" style={{ margin: "0 15px" }}>
+                        <p className='mt-2' style={{ color: "#C0C0C0" }}><Link to='/'>Nhân viên</Link> / {staff.name}</p>
+                            <CardImg src={staff.image} />
+                                <Card>
+                                    <div className="ms-1">
+                                        <h4><span className="fa fa-user-circle" />Họ và tên : {staff.name}</h4>
+                                        <p><span className="fa fa-birthday-cake" />Ngày sinh : {dateFormat(staff.doB, "dd/mm/yyyy")}</p>
+                                        <p><span className="fa fa-calendar" />Ngày vào công ty : {dateFormat(staff.startDate, "dd/mm/yyyy")}</p>
+                                        <p><span className="fa fa-sitemap" />Phòng ban : {staff.department.name}</p>
+                                        <p><span className="fa fa-user-times" />Số ngày nghỉ còn lại : {staff.annualLeave}</p>
+                                        <p><span className="fa fa-user-plus" />Số ngày đã làm thêm : {staff.overTime}</p>
+                                    </div>
+                                </Card>
+                    </div>
                 );
             } else {
                 return (
