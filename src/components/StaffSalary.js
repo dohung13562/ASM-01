@@ -2,6 +2,11 @@ import { Card } from "reactstrap";
 import { Link } from "react-router-dom";
 
 function StaffSalary({ staffs }) {
+    function setSorted({ staffs }) {
+        staffs.sort(function(a,b) {
+            return a.salaryScale + b.salaryScale;
+        })
+    }
     const list = staffs.map((staff) => {
         return (
             <div key={staff.id} className="col-lg-4 col-md-6 col-sm-12">
@@ -22,7 +27,7 @@ function StaffSalary({ staffs }) {
 
     return (
         <div className="container">
-            <p className='text text-white m-2'><Link to='/'>Nhân viên</Link> / Bảng lương</p>
+            <p className='text text-white m-2'><Link to='/'>Nhân viên</Link> / Bảng lương / <button type="button" onClick={() => setSorted("salaryScale")}>Sắp Xếp</button></p>
             <div className="row mt-1">
                 {list}
             </div>
