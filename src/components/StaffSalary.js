@@ -1,13 +1,16 @@
 import { Card } from "reactstrap";
 import { Link } from "react-router-dom";
+import { useState } from "react";
 
 function StaffSalary({ staffs }) {
-    function setSorted({ staffs }) {
+    const [checker, setChecker] = useState(staffs)
+    const handleClick = () => { 
         staffs.sort(function(a,b) {
-            return a.salaryScale + b.salaryScale;
+            return a.salaryScale - b.salaryScale
         })
+        setChecker(staffs)
     }
-    const list = staffs.map((staff) => {
+    const list = checker.map((staff) => {
         return (
             <div key={staff.id} className="col-lg-4 col-md-6 col-sm-12">
                     <Card className="mt-2">
@@ -27,7 +30,10 @@ function StaffSalary({ staffs }) {
 
     return (
         <div className="container">
-            <p className='text text-white m-2'><Link to='/'>Nhân viên</Link> / Bảng lương / <button type="button" onClick={() => setSorted("salaryScale")}>Sắp Xếp</button></p>
+            <p className='text text-white m-2'><Link to='/'>Nhân viên</Link> / Bảng lương </p>
+            <div>
+            <button onClick={handleClick}>Sắp Xếp</button>
+            </div>
             <div className="row mt-1">
                 {list}
             </div>
