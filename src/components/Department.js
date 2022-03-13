@@ -12,7 +12,7 @@ class Department extends Component {
             return (
                 <div key={apartment.id} className="col-lg-4 col-md-6 col-sm-12">
                         <Card className="m-4" style={{ background: "#ADD8E6" }}>
-                            <h2 className="ms-1 p-2">{apartment.name}</h2><br />
+                            <h2 className="ms-1 p-2"><span className="fa fa-tag" /> {apartment.name}</h2><br />
                             <p className="ms-4 p-2"><span className="fa fa-users" /> Số lượng nhân viên: {apartment.numberOfStaff}</p>
                         </Card>
                 </div>

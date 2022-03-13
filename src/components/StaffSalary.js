@@ -1,6 +1,6 @@
 import { Card } from "reactstrap";
 import { Link } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
 function StaffSalary({ staffs }) {
     const [checker, setChecker] = useState(staffs)
