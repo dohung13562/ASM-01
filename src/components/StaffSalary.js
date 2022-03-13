@@ -1,6 +1,6 @@
 import { Card } from "reactstrap";
 import { Link } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 function StaffSalary({ staffs }) {
     const [checker, setChecker] = useState(staffs)
@@ -30,10 +30,7 @@ function StaffSalary({ staffs }) {
 
     return (
         <div className="container">
-            <p className='text text-white m-2'><Link to='/'>Nhân viên</Link> / Bảng lương </p>
-            <div>
-            <button onClick={handleClick}>Sắp Xếp</button>
-            </div>
+            <p className='text text-white m-2'><Link to='/'>Nhân viên</Link> / Bảng lương / <button onClick={handleClick}>Sắp Xếp</button></p>
             <div className="row mt-1">
                 {list}
             </div>
