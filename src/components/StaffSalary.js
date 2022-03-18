@@ -8,7 +8,7 @@ function StaffSalary({ staffs }) {
         staffs.sort(function(a,b) {
             return a.salaryScale - b.salaryScale
         })
-        setChecker(staffs)
+        setChecker([...staffs])
     }
     const list = checker.map((staff) => {
         return (
