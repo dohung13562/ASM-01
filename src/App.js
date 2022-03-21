@@ -9,7 +9,6 @@ import Department from './components/Department';
 import StaffSalary from './components/StaffSalary';
 import Footer from './components/FooterComponent';
 
-
 class App extends Component {
 
   constructor(props) {
@@ -19,12 +18,33 @@ class App extends Component {
       staffId: null,
       staffdepartment: null,
     }
+    this.addStaff = this.addStaff.bind(this);
   }
 
   onchangeStaffId(staffId) {
     this.setState({ staffId: staffId })
-
 } 
+
+  addStaff = (staff) => {
+    const id = Math.floor(Math.random() * 10000 + 1);
+    const newStaff = { id, ...staff};
+    this.setState ({
+      staff: [...this.state.stafffs, newStaff]
+    });
+    console.log(newStaff);
+    console.log(this.state.staffs)
+}
+
+addStaff = (staff) => {
+  const id = Math.floor(Math.random() * 10000 + 1);
+  const newStaff = { id, ...staff };
+  this.setState({
+    staffs: [...this.state.staffs, newStaff]
+  });
+  console.log(newStaff);
+  console.log(this.state.stafffs)
+}
+
 render() {
   return (
     <div>
@@ -35,6 +55,7 @@ render() {
           <Route path={"/staff/" + this.state.staffId} element = {<StaffsInfomation staff={ STAFFS.filter((staff) => staff.id === this.state.staffId)[0] }/> }/>
           <Route path="/department" element = {<Department apartments={DEPARTMENTS}/> }/>
           <Route path="/salary" element = {<StaffSalary staffs={STAFFS} />}></Route>
+          <Route path='/staff' element = {() => (<StaffList onAdd = {this.addStaff} staff= {this.state.staffs}/>)}/>
         </Routes>
       <Footer />
     </div>
