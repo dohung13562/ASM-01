@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-// import { Provider } from 'react-redux'
+import { Provider } from 'react-redux'
 import { BrowserRouter } from 'react-router-dom';
 import App from './App';
 import './index.css';
@@ -8,16 +8,17 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap-social/bootstrap-social.css';
 import 'font-awesome/css/font-awesome.css';
 import reportWebVitals from './reportWebVitals';
+import { ConfigureStore } from './redux/configureStore';
 
-
+const store = ConfigureStore
 
 ReactDOM.render(
   <React.StrictMode>    
-    {/* <Provider> */}
+    <Provider store ={store}>
       <BrowserRouter >  
         <App /> 
       </BrowserRouter>
-    {/* </Provider>   */}
+    </Provider>  
   </React.StrictMode>,
   document.getElementById('root')
 );

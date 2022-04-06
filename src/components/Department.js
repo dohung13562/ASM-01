@@ -1,5 +1,6 @@
 import { Component } from "react";
-import { Card } from "reactstrap"
+import { Link } from "react-router-dom";
+import { Card, CardText, CardTitle } from "reactstrap"
 
 class Department extends Component {
 
@@ -8,13 +9,15 @@ class Department extends Component {
     
 }
     render() {
-        const list = this.props.apartments.map((apartment) => {
+        const list = this.props.departments.map((departments) => {
             return (
-                <div key={apartment.id} className="col-lg-4 col-md-6 col-sm-12">
+                <div key={departments.id} className="col-lg-4 col-md-6 col-sm-12">
+                    <Link to = {`/departments${this.props.dept.id}`}>
                         <Card className="m-4" style={{ background: "#ADD8E6" }}>
-                            <h2 className="ms-1 p-2"><span className="fa fa-tag" /> {apartment.name}</h2><br />
-                            <p className="ms-4 p-2"><span className="fa fa-users" /> Số lượng nhân viên: {apartment.numberOfStaff}</p>
+                            <CardTitle className="ms-1 p-2"><span className="fa fa-tag" /> {this.props.dept.name}</CardTitle><br />
+                            <CardText className="ms-4 p-2"><span className="fa fa-users" /> Số lượng nhân viên: {this.props.numberOfStaff.length}</CardText>
                         </Card>
+                    </Link>
                 </div>
             );
         });

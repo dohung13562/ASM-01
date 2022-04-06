@@ -1,0 +1,6 @@
+
+
+
+class StaffDetail extends Comment {
+    
+}

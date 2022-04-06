@@ -1,7 +1,32 @@
 import React, { Component } from "react";
-import {Card, CardImg, Button, Row, Label, Input, Col, FormFeedback, Modal, ModalBody, ModalHeader } from "reactstrap";
+import {Card, CardImg, Button, Row, Label, Input, Col, FormFeedback, Modal, ModalBody, ModalHeader, CardBody, CardSubtitle } from "reactstrap";
 import { Link } from "react-router-dom";
 import { LocalForm, Control, Errors} from "react-redux-form";
+
+const required = (value) => value && value.length;
+const maxLength = (len) => (value) => !(value) || (value.length <= len);
+const minLength = (len) => (value) => value && (value.length >= len);
+
+const RenderStaffItem = ({ staff, onDeleteStaff}) => {
+    return (
+        <FadeTranForm in
+            transformProps = {{
+                exitTransform: "scale(0.5) translateY(-50%)"
+            }}>
+            <div>
+                <Link to = {`/staff/${staff.id}`}>
+                  <Card>
+                    <CardImg width="100%" src={staff.image} alt={staff.name} />
+                      <CardBody>
+                        <CardSubtitle>{staff.name}</CardSubtitle>
+                      </CardBody>
+                  </Card>
+                </Link>
+                <Button color="danger" onClick={() => onDeleteStaff(staff.id)}>Delete</Button>
+            </div> 
+            </FadeTranForm>
+    )
+}
 
 class StaffList extends Component {
 
@@ -9,44 +34,21 @@ class StaffList extends Component {
         super(props);
 
         this.state = {
-            name: "",
-            doB: "",
-            startDate: "",
-            department: "Sale",
-            salaryScale: 1,
-            annualLeave: 0,
-            overTime: 0,
-            salary: 30000,
-            image: "/assets/images/alberto.png",
-            touched: {
-                name: false,
-                department: false,
-                salaryScale: false,
-                doB: false,
-                startDate: false,
-                annualLeave: false,
-                overTime: false
-            },
-            nameK: "",
-            isModalOpen: false
+            nameK: ""
         };
-        this.toggleModal = this.toggleModal.bind(this);
         this.searchModal = this.searchModal.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
-        this.handleBlur = this.handleBlur.bind(this);
-        this.handleInputChange = this.handleInputChange.bind(this);
-    }
-    
-    toggleModal() {
-        this.setState({
-            isModalOpen: !this.state.isModalOpen
-        });
     }
     
     searchModal(event) {
         event.preventDefault();
         const name = event.target.name.value;
         this.setState({ nameK: name })
+    }
+    
+    toggleModal() {
+        this.setState({
+            isModalOpen: !this.state.isModalOpen
+        });
     }
     
     handleSubmit = (value) => {
@@ -118,9 +120,7 @@ class StaffList extends Component {
             this.state.annualLeave,
             this.state.overTime
             );
-        const required = (value) => value && value.length;
-        const maxLength = (len) => (value) => !(value) || (value.length <= len);
-        const minLength = (len) => (value) => value && (value.length >= len);
+
         const list = this.props.staffs.filter((val) => {
             if (this.state.nameK === "") return val;
             else if (
