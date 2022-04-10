@@ -1,6 +1,0 @@
-
-
-
-class DepartmentDetail extends Comment {
-    
-}

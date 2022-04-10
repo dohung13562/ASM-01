@@ -1,7 +1,9 @@
 import React, { Component } from "react";
-import {Card, CardImg, Button, Row, Label, Input, Col, FormFeedback, Modal, ModalBody, ModalHeader, CardBody, CardSubtitle } from "reactstrap";
+import { Card, CardImg, Button, Row, Label, Input, Col, FormFeedback, Modal, ModalBody, ModalHeader, CardBody, CardSubtitle } from "reactstrap";
 import { Link } from "react-router-dom";
+import { FadeTransform } from 'react-animation-components'
 import { LocalForm, Control, Errors} from "react-redux-form";
+
 
 const required = (value) => value && value.length;
 const maxLength = (len) => (value) => !(value) || (value.length <= len);
@@ -9,10 +11,10 @@ const minLength = (len) => (value) => value && (value.length >= len);
 
 const RenderStaffItem = ({ staff, onDeleteStaff}) => {
     return (
-        <FadeTranForm in
-            transformProps = {{
-                exitTransform: "scale(0.5) translateY(-50%)"
-            }}>
+        <FadeTransform in
+                transformProps = {{
+                    exitTransform: "scale(0.5) translateY(-50%)"
+            }}> 
             <div>
                 <Link to = {`/staff/${staff.id}`}>
                   <Card>
@@ -24,7 +26,7 @@ const RenderStaffItem = ({ staff, onDeleteStaff}) => {
                 </Link>
                 <Button color="danger" onClick={() => onDeleteStaff(staff.id)}>Delete</Button>
             </div> 
-            </FadeTranForm>
+            </FadeTransform>
     )
 }
 
@@ -45,6 +47,83 @@ class StaffList extends Component {
         this.setState({ nameK: name })
     }
     
+render() {
+    const list = this.props.staffs.filter((val) => {
+        if (this.state.nameK === "") return val
+        else if (
+            val.name.toLowerCase().includes(this.state.nameK.toLowerCase())
+        )
+        return val
+        return 0
+    }).map((val) => {
+        return (
+            <div key={val.id} className="col-lg-2 col-md-4 col-sm-6">
+                <RenderStaffItem staff={val} onDeleteStaff={this.props.onDeleteStaff} />
+            </div>
+        );
+    });
+
+return (
+    <div className="container">
+        <div className="row">
+                <div className="col-12 col-md-6 mt-3">
+                    <div className="row">
+                        <div className="text text-white m-2">
+                            <h4>Nhân Viên</h4>
+                        </div>
+                        <AddStaffFrom onAdd = {this.props.onAddStaff} />
+                    </div> 
+                </div>
+                <div className="col-12 col-md-6 mt-3">
+                    <form onSubmit={this.searchModal} className="form-group row">
+                        <div className="col-8 col-md-8">
+                            <input
+                            type="text"
+                            name="name"
+                            className="form-control"
+                            placeholder="tìm kiếm nhân viên ..." />
+                        </div>
+                        <div className="col-4 col-md-4">
+                            <button className="btn btn-success" type="submit">tìm kiếm</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div className="col-12">
+                <hr/>
+                <div className="row row-shadow mb-2 mt-2">{list}</div>
+        </div>
+    </div>    
+    )}
+}
+
+class AddStaffFrom extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            isModalOpen: false,
+            doB: "",
+            startDate: "",
+            departmentId: "Dept02",
+            salaryScale: 1,
+            annualLeave: 0,
+            overTime: 0,
+            image: "/assets/images/alberto.png",
+            touched: {
+                doB: false,
+                startDate: false,
+                departmentId: false,
+                salaryScale: false,
+                annualLeave: false,
+                overTime: false
+            }
+        }
+        this.toggleModal = this.toggleModal.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleBlur = this.handleBlur.bind(this);
+        this.handleInputChange = this.handleInputChange.bind(this);
+    }
+
     toggleModal() {
         this.setState({
             isModalOpen: !this.state.isModalOpen
@@ -52,19 +131,25 @@ class StaffList extends Component {
     }
     
     handleSubmit = (value) => {
-        const newStaff = {
-            name: value.name,
-            doB: this.state.doB,
-            startDate: this.state.startDate,
-            department: this.state.department,
-            salaryScale: this.state.salaryScale,
-            annualLeave: this.state.annualLeave,
-            overTime: this.state.overTime,
-            image: this.state.image
+        if (!this.state.doB || !this.state.startDate)
+            this.setState ({
+                touched: {doB: true, startDate: true}
+            })
+        else {
+            const newStaff = {
+                name: value.name,
+                doB: this.state.doB,
+                startDate: this.state.startDate,
+                department: this.state.departmentId,
+                salaryScale: this.state.salaryScale,
+                annualLeave: this.state.annualLeave,
+                overTime: this.state.overTime,
+                image: "/assets/images/alberto.png"
+            }
+            this.props.onAdd(newStaff);
         }
-        this.props.onAdd(newStaff);
     }
-    
+
     handleBlur = (field) => () => {
         this.setState({
             touched: { ...this.state.touched, [field]: true }
@@ -113,7 +198,7 @@ class StaffList extends Component {
     render() {
         const errors = this.validate(
             this.state.name,
-            this.state.department,
+            this.state.departmentId,
             this.state.salaryScale,
             this.state.doB,
             this.state.startDate,
@@ -121,56 +206,12 @@ class StaffList extends Component {
             this.state.overTime
             );
 
-        const list = this.props.staffs.filter((val) => {
-            if (this.state.nameK === "") return val;
-            else if (
-                val.name.toLowerCase().includes(this.state.nameK.toLowerCase())
-            )
-            return val;
-            return 0;
-        }).map((val) => {
-            return (
-                <div key={val.id} className="col-lg-2 col-md-4 col-sm-6">
-                    <Link className="nav-link link-dark" to={"/staff/" + val.id}>
-                        <Card onClick={() => this.props.onClick(val.id)}>
-                            <CardImg src={val.image} />
-                            <p style={{textAlign: "center"}}>{val.name}</p>
-                        </Card>
-                    </Link>
-                </div>
-            );
-        });
-
     return (
         <div className="container-fluid">
             <div className="row">
-                <div className="col-12 col-md-6 mt-3">
-                    <div className="row">
-                        <div className="text text-white m-2">
-                            <h4>Nhân Viên</h4>
-                        </div>
-                        <div className="col-lg-2 col-md-4 col-sm-6">
-                            <Button outline onClick={this.toggleModal}><span className="fa fa-plus fa-lg"></span></Button>
-                        </div>
-                    </div> 
+                <div className="col-lg-2 col-md-4 col-sm-6">
+                    <Button outline onClick={this.toggleModal}><span className="fa fa-plus fa-lg"></span></Button>
                 </div>
-                <div className="col-12 col-md-6 mt-3">
-                    <form onSubmit={this.searchModal} className="form-group row">
-                        <div className="col-8 col-md-8">
-                            <input
-                            type="text"
-                            name="name"
-                            className="form-control"
-                            placeholder="tìm kiếm nhân viên ..." />
-                        </div>
-                        <div className="col-4 col-md-4">
-                            <button className="btn btn-success" type="submit">tìm kiếm</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-            <div className="col-12">
-                <hr/>
             </div>
             <Modal isOpen={this.state.isModalOpen} toggle={this.toggleModal}>
               <ModalHeader toggle={this.toggleModal}>Thêm nhân viên</ModalHeader>
@@ -295,8 +336,7 @@ class StaffList extends Component {
                 </ModalBody>
             </Modal>
             
-            <div className="row row-shadow mb-2 mt-2">{list}
-            </div>
+            
         </div>
         );
     }

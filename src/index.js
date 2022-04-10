@@ -10,7 +10,7 @@ import 'font-awesome/css/font-awesome.css';
 import reportWebVitals from './reportWebVitals';
 import { ConfigureStore } from './redux/configureStore';
 
-const store = ConfigureStore
+const store = ConfigureStore()
 
 ReactDOM.render(
   <React.StrictMode>    

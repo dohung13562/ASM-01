@@ -109,71 +109,37 @@ export const staffsLoading = () => ({
 export const fetchDepartments = () => (dispatch) => {
     dispatch(departmentsLoading(true));
     return fetch(baseUrl + "departments")
-    .then((response) => {
-        if (response.ok) {
-            return response
-        } else {
-            var error = new Error(
-                "Error" + response.status + ": " + response.statusText
-            );
-            error.response = response;
-            throw error;
-        }
-    },
-    (error) => {
-        throw error;
-    })
     .then((response) => response.json())
-    .then((response) => dispatch(departmentsfailed(response)))
-    .catch((error) => {
-        console.log("Department staffs", error.message);
-        alert("Your staff could not be departmented\nError:" + error.message);
-    })
+    .then((departments) => dispatch(addDepartments(departments)))
+    .catch((error) => dispatch(departmentsFailed(error.message)))
 }
-export const departmentsfailed = (errmess) => ({
+export const departmentsFailed = (errmess) => ({
     type: ActionTypes.DEPARTMENTS_FAILED,
     payload: errmess
 })
 export const departmentsLoading = () => ({
     type: ActionTypes.DEPARTMENTS_LOADING
 })
-export const addDepartments = (staffs) => ({
+export const addDepartments = (departments) => ({
     type: ActionTypes.ADD_DEPARTMENTS,
-    payload: staffs
+    payload: departments
 })
 
 export const fetchStaffsSalary = () => (dispatch) => {
     dispatch(staffsSalaryLoading(true));
     return fetch(baseUrl + "staffsSalary")
-    .then((response) => {
-        if (response.ok) {
-            return response
-        } else {
-            var error = new Error(
-                "Error" + response.status + ": " + response.statusText
-            );
-            error.response = response;
-            throw error;
-        }
-    },
-    (error) => {
-        throw error;
-    })
     .then((response) => response.json())
-    .then((response) => dispatch(staffsSalaryfailed(response)))
-    .catch((error) => {
-        console.log("StaffsSalary staffs", error.message);
-        alert("Your staff could not be staffsSalaryed\nError:" + error.message);
-    })
+    .then((staffsSalary) => dispatch(addStaffsSalary(staffsSalary)))
+    .catch((error) => dispatch(staffsSalaryFailed(error.message)))
 }
-export const staffsSalaryfailed = (errmess) => ({
+export const staffsSalaryFailed = (errmess) => ({
     type: ActionTypes.STAFFSSALARY_FAILED,
     payload: errmess
 })
 export const staffsSalaryLoading = () => ({
     type: ActionTypes.STAFFSSALARY_LOADING
 })
-export const addStaffsSalary = (staffs) => ({
+export const addStaffsSalary = (staffsSalary) => ({
     type: ActionTypes.ADD_STAFFSSALARY,
-    payload: staffs
+    payload: staffsSalary
 })
