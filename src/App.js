@@ -6,6 +6,7 @@ import './App.css';
 import Header from './components/HeaderComponent';
 import StaffList from './components/ListInfomation';
 import StaffsInfomation from './components/StaffsInfomation';
+import DepartmentDetail from './components/DepartmentDetail';
 import Department from './components/Department';
 import StaffSalary from './components/StaffSalary';
 import Footer from './components/FooterComponent';
@@ -54,17 +55,18 @@ render() {
     return(
         <StaffsInfomation 
           staff = {this.props.staffs.staffs.filter((staff) => staff.id === parseInt(params.staffId,10))[0]} 
-          dept = {this.props.departments.departments.filter((dept) => dept.id === this.props.staffs.staffs.filter((staff) => staff.id === parseInt(params.staffId,10))[0].departmentId)} 
+          dept = {this.props.departments.departments.filter((dept) => dept.id === this.props.staffs.staffs.filter((staff) => staff.id === parseInt(params.staffId,10))[0].departmentId)}  
           onUpdateStaff = {this.props.updateStaff}
             />
     );
   };
 
-  const StaffWithDept = ({match}) => {
+  const StaffWithDept = () => {
+    let params = useParams()
     return(
-        <Department
-          dept = {this.props.departments.departments.filter((dept) => dept.id === match.params.deptId,10)[0]} 
-          staff = {this.props.staffs.staffs.filter((staff) => staff.departmentId === match.params.deptId)} />
+        <DepartmentDetail
+          dept = {this.props.departments.departments.filter((dept) => dept.id === params.deptId)[0]} 
+          staffs = {this.props.staffs.staffs.filter((staff) => staff.departmentId === params.deptId)} />
     );
   }; 
 
@@ -75,8 +77,9 @@ render() {
           <CSSTransition classNames="page" timeout={300}>
             <Routes location={this.props.location}>
               <Route path="/staff/:staffId" element = {<StaffWithId/>}/>
-              <Route path="/departments/:deptId" element = {StaffWithDept}/>
-              <Route path="/" element = { <StaffList staffsLoading= {this.props.staffs.isLoading} onAddStaff = {this.props.addStaff} staffs = {this.props.staffs.staffs} onDeleteStaff = {this.props.deleteStaff}/> }/>
+              <Route path="/departments/:deptId" element = {<StaffWithDept />}/>
+              <Route path="/" element = {<StaffList staffsLoading= {this.props.staffs.isLoading} onAddStaff = {this.props.addStaff} staffs = {this.props.staffs.staffs} onDeleteStaff = {this.props.deleteStaff}/> }/>
+              <Route path="/department" element = {<Department dept={this.props.departments.departments} /> }/>
               <Route path="/salary" element = {<StaffSalary salary = {this.props.staffsSalary.staffsSalary} />}></Route>
             </Routes>
           </CSSTransition>

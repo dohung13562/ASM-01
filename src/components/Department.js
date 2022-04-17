@@ -1,47 +1,46 @@
 import { Component } from "react";
 import { Link } from "react-router-dom";
 import { Card, CardText, CardTitle, CardBody } from "reactstrap";
-import { FadeTranForm } from "react-animation-components";
+import { FadeTransform } from "react-animation-components";
 
-class RenderDept extends Component {
-    render() {
+const RenderDept = ({ dept }) => {
         return (
-            <FadeTranForm in
+            <FadeTransform in
                 transformProps = {{
                     exitTransform: "scale(0.5) translateY(-50%)"
                 }}>
-                    <Link to = {`/departments/${this.props.dept.id}`}>
+                    <Link to = {`/departments/${dept.id}`}>
                       <Card className="m-4" style={{ background: "#ADD8E6" }}>
-                        <CardTitle className="ms-1 p-2"><span className="fa fa-tag"/>{this.props.dept.name}</CardTitle>
+                        <CardTitle className="ms-1 p-2"><span className="fa fa-tag"/>{dept.name}</CardTitle>
                           <CardBody>
-                            <CardText className="ms-4 p-2"><span className="fa fa-users"/>Số lượng nhân viên: {this.props.staffNum.length}</CardText>
+                            <CardText className="ms-4 p-2"><span className="fa fa-users"/>Số lượng nhân viên: {dept.numberOfStaff}</CardText>
                           </CardBody>
                       </Card>
                     </Link> 
-                </FadeTranForm>
+                </FadeTransform>
         )
     }
-}
-
 
 class Department extends Component {
+    constructor(props) {
+        super(props)
+    }
     render() {
-        const departments = this.props.departments.map((department) => {
+        const dept = this.props.dept.map((department) => {
             return (
-                <div key={departments.id} className="col-lg-4 col-md-6 col-sm-12">
-                    <RenderDept dept={department} staffNum={this.props.staff.filter((staff) => staff.departmentId === department.id)} />
+                <div key={department.id} className="col-lg-4 col-md-6 col-sm-12">
+                    <RenderDept dept={department} />
                 </div>
             );
         });
         return (
             <div className="container">
                 <div className="row mt-1">
-                    {departments}
+                    {dept}
                 </div>
             </div>
         );
     }
-    
 }
 
 export default Department

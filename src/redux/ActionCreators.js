@@ -1,6 +1,8 @@
 import * as ActionTypes from "./ActionTypes";
 import { baseUrl } from "../shared/baseUrl";
 
+//ADD STAFF
+
 export const AddStaffSuccess = (staff) => ({
     type: ActionTypes.ADD_STAFF_SUCCESS,
     payload: staff
@@ -36,6 +38,8 @@ export const addStaff = (staff) => (dispatch) => {
     })
 };
 
+//DELETE
+
 export const deleteStaffSuccess = (id) => ({
     type: ActionTypes.DELETE_STAFF_SUCCESS,
     payload: id
@@ -44,13 +48,15 @@ export const deleteStaffLoading = () => ({
     type: ActionTypes.DELETE_STAFF_LOADING
 })
 export const deleteStaff = (id) => (dispatch) => {
-    if (alert("Are you sure to delete this staff?")) {
-        return fetch(baseUrl + `staff/${id}`, {
+    if (window.confirm("Are you sure to delete this staff?")) {
+        return fetch(baseUrl + `staffs/${id}`, {
             method: "DELETE"
     })
     .then(() => dispatch(deleteStaffSuccess(id)))
     } else return
 };
+
+//UPDATE
 
 export const updateStaffSuccess = (staff) => ({
     type: ActionTypes.UPDATE_STAFFS_SUCCESS,
@@ -83,9 +89,11 @@ export const updateStaff = (staff) => (dispatch) => {
     .then((response) => dispatch(updateStaffSuccess(response)))
     .catch((error) => {
         console.log("Update staffs", error.message);
-        alert("Your staff could not be updated\nError:" + error.message);
+        alert("Your staff could not be updated\nError: " + error.message);
     })
 };
+
+//FETCHSTAFFS
 
 export const fetchStaffs = () => (dispatch) => {
     dispatch(staffsLoading(true));
@@ -106,6 +114,8 @@ export const staffsLoading = () => ({
     type: ActionTypes.STAFFS_LOADING
 })
 
+//FETCHDEPARTMENTS
+
 export const fetchDepartments = () => (dispatch) => {
     dispatch(departmentsLoading(true));
     return fetch(baseUrl + "departments")
@@ -124,6 +134,8 @@ export const addDepartments = (departments) => ({
     type: ActionTypes.ADD_DEPARTMENTS,
     payload: departments
 })
+
+//FETCHSTAFFSSALARY
 
 export const fetchStaffsSalary = () => (dispatch) => {
     dispatch(staffsSalaryLoading(true));

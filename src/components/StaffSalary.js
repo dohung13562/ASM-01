@@ -1,41 +1,55 @@
-import { Card } from "reactstrap";
-import { Link } from "react-router-dom";
-import { useState } from "react";
+import { Card, CardTitle, CardBody } from "reactstrap";
+import { Component, useState } from "react";
+import { FadeTransform } from "react-animation-components";
 
-function StaffSalary({ staffs }) {
-    const [checker, setChecker] = useState(staffs)
-    const handleClick = () => { 
-        staffs.sort(function(a,b) {
-            return a.salaryScale - b.salaryScale
-        })
-        setChecker([...staffs])
-    }
-    const list = checker.map((staffs) => {
-        return (
-            <div key={staffs.id} className="col-lg-4 col-md-6 col-sm-12">
-                    <Card className="mt-2">
-                        <div style={{ background: "#ADD8E6" }}>
-                            <h3>{staffs.name}</h3>
-                            <p className="ms-2">Mã nhân viên: {staffs.id}</p>
-                            <p className="ms-2">Hệ số lương: {staffs.salaryScale}</p>
-                            <p className="ms-2">Số giờ làm thêm: {staffs.overTime}</p>
-                        </div>
-                        <Card style={{ background: "#FFFF00" }}>
-                            <p className="m-3">Lương: {(staffs.salaryScale * 3000000 + staffs.overTime * 200000).toFixed(0)}</p>
-                        </Card>
+const RenderSalary = ({salary}) => {
+    return(
+        <FadeTransform in
+            transformProps = {{
+                exitTransform: "scale(0.5) translateY(-50%)"
+            }}>
+            <div>
+                    <Card className="m-1" style={{ background: "#ADD8E6" }}>
+                    <CardTitle className="m-2"><h2>{salary.name}</h2></CardTitle>
+                        <CardBody style={{ background: "#ADD8E6" }}>
+                            <div >
+                                <h5>Mã nhân viên: {salary.id}</h5>
+                                <h5>Hệ số lương: {salary.salaryScale}</h5>
+                                <h5>Số giờ làm thêm: {salary.overTime}</h5>
+                            </div>
+                            <div className="text-danger">
+                                <h3>Lương: {(salary.salaryScale * 3000000 + salary.overTime * 200000).toFixed(0)}</h3>
+                            </div>
+                        </CardBody>
                     </Card>
             </div>
-        );
-    });
-
-    return (
-        <div className="container">
-            <p className='text text-white m-2'><Link to='/'>Nhân viên</Link> / Bảng lương / <button onClick={handleClick}>Sắp Xếp</button></p>
-            <div className="row mt-1">
-                {list}
-            </div>
-        </div>
-    );
+            </FadeTransform>
+    )
 }
+
+class StaffSalary extends Component {
+    constructor(props) {
+        super(props)
+    }
+
+    render() {
+        const staffSalary = this.props.salary.map((salarys) => {
+            return (              
+                <div key={salarys.id} className="col-lg-4 col-md-6 col-sm-12">  
+                    <RenderSalary salary={salarys} />       
+                </div>
+            )
+        })
+            return(
+                <div className="container">
+                    <div className="row mt-1">
+                        <h2 className="text-success">Bảng Lương</h2>
+                        {staffSalary}
+                    </div>
+                </div>
+            )
+    }
+}
+
 
 export default StaffSalary;

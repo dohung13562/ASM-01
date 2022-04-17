@@ -7,13 +7,13 @@ export const StaffsSalary  = (state = {
   switch (action.type) {
 
     case ActionTypes.STAFFSSALARY_LOADING:
-      return {...state, isLoading: true};
+      return {...state, isLoading: true, errMess: null, staffsSalary:[]};
 
     case ActionTypes.STAFFSSALARY_FAILED:
-      return {...state, isLoading: false, errMess: action.payload};
+      return {...state, isLoading: false, errMess: action.payload, staffsSalary:[]};
 
     case ActionTypes.ADD_STAFFSSALARY:
-      return {...state, isLoading: false, staffsSalary: action.payload};
+      return {...state, isLoading: false, errMess: null, staffsSalary: action.payload};
 
     default:
       return state;
