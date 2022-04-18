@@ -10,7 +10,7 @@ class DepartmentDetail extends Component {
         return(
             <div className="container">
                 <div className="row">
-                    <h3 className="text-primary">Phòng Ban: {this.props.dept.name}</h3><br />
+                    <h3 className="text-primary">Phòng Ban: {this.props.dept.name}</h3>
                     <StaffList staffs={this.props.staffs} />
                 </div>
             </div>

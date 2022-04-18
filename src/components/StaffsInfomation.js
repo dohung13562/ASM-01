@@ -4,10 +4,10 @@ import { Link } from "react-router-dom";
 import { Card, CardImg, CardBody, CardTitle, Button, Row, Label, Input, Col, FormFeedback, Modal, ModalBody, ModalHeader, } from "reactstrap";
 import { LocalForm, Control, Errors } from "react-redux-form";
 
-const required = (values) => values && values.length;
-const maxLength = (len) => (values) => !(values) || (values.length <= len);
-const minLength = (len) => (values) => values && (values.length >= len);
-const isNumber = (values) => !isNaN(Number(values));
+const required = (val) => val && val.length;
+const maxLength = (len) => (val) => !val || val.length <= len;
+const minLength = (len) => (val) => val && val.length >= len;
+const isNumber = (val) => !isNaN(Number(val));
 
 class StaffsInfomation extends Component {
 
@@ -21,15 +21,14 @@ class StaffsInfomation extends Component {
 
     this.state = {
       isModalOpen: false,
-      
+      id: this.props.staffId,
       doB: "",
       startDate: "",
-      departmentId:"Dept02",
+      departmentId: "Dept01",
       image: "/assets/images/alberto.png",
       touched: {
         doB: false,
         startDate: false,
-        departmentId: false
       },
     }
     this.toggleModal = this.toggleModal.bind(this);
@@ -52,6 +51,7 @@ class StaffsInfomation extends Component {
       })
     else {
       const onUpdateStaff = {
+        id: this.state.id,
         name: values.name,
         departmentId: this.state.departmentId,
         doB: this.state.doB,
@@ -75,11 +75,9 @@ class StaffsInfomation extends Component {
     const target = event.target;
     const value = target.value;
     const name = target.name;
-    const departmentId = target.departmentId;
 
     this.setState({
       [name]: value,
-      [departmentId]: value
     });
   }
 
@@ -100,14 +98,13 @@ class StaffsInfomation extends Component {
     const errors = this.validate(
       this.state.doB,
       this.state.startDate,
-  );
+    );
 
     const staff = this.props.staff;
     const dept = this.props.dept;
-
     return (
       <div className="col-12">
-        <CardTitle className='m-2' style={{ color: "#C0C0C0" }}><Link to='/'>Nhân viên</Link> / {staff.name}</CardTitle>
+        <CardTitle className='m-2' style={{ color: "#C0C0C0" }}><Link to='/staff'>Nhân viên</Link> / {staff.name}</CardTitle>
         <Button outline onClick={this.toggleModal} type="submit" color="primary" className="m-2">Update</Button>
         <Card className="container-fluid">
           <div className="row">
@@ -177,13 +174,12 @@ class StaffsInfomation extends Component {
                   <Label htmlFor="department" md={4}>Phòng ban</Label>
                   <Col md={8}>
                     <select id="department" name="departmentId" className="form-control"
-                      value={this.state.departmentId}
-                      onChange={this.handleInputChange}>
-                      <option>Sale</option>
-                      <option>HR</option>
-                      <option>Marketing</option>
-                      <option>IT</option>
-                      <option>Finance</option>
+                      onChange={(e) => this.handleInputChange(e)}>
+                      <option value={"Dept01"}>Sale</option>
+                      <option value={"Dept02"}>HR</option>
+                      <option value={"Dept03"}>Marketing</option>
+                      <option value={"Dept04"}>IT</option>
+                      <option value={"Dept05"}>Finance</option>
                     </select>
                   </Col>
                 </Row>

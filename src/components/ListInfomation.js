@@ -21,7 +21,7 @@ const RenderStaffItem = ({ staff, onDeleteStaff }) => {
                     <Card>
                         <CardImg width="100%" src={staff.image} alt={staff.name} />
                         <CardBody>
-                            <CardSubtitle style={{textAlign: "center"}}>{staff.name}</CardSubtitle>
+                            <CardSubtitle style={{ textAlign: "center" }}>{staff.name}</CardSubtitle>
                         </CardBody>
                     </Card>
                 </Link>
@@ -91,8 +91,7 @@ class StaffList extends Component {
                     </div>
                 </div>
                 <div className="col-12">
-                    <hr />
-                    <div className="row row-shadow mb-2 mt-2">{list}</div>
+                    <div className="row row-shadow mb-2 mt-4">{list}</div>
                 </div>
             </div>
         )
@@ -104,14 +103,14 @@ class AddStaffFrom extends Component {
         super(props);
         this.state = {
             isModalOpen: false,
+            id: this.props.staffId,
             doB: "",
             startDate: "",
-            departmentId: "",
+            departmentId: "Dept01",
             image: "/assets/images/alberto.png",
             touched: {
                 doB: false,
-                startDate: false,
-                departmentId: false
+                startDate: false
             },
         }
         this.toggleModal = this.toggleModal.bind(this);
@@ -133,16 +132,17 @@ class AddStaffFrom extends Component {
                 touched: { doB: true, startDate: true }
             })
         else {
-        const newStaff = {
-            name: value.name,
-            doB: this.state.doB,
-            startDate: this.state.startDate,
-            departmentId: this.state.departmentId,
-            salaryScale: parseInt(value.salaryScale, 10),
-            annualLeave: parseInt(value.annualLeave, 10),
-            overTime: parseInt(value.overTime, 10),
-            image: "/assets/images/alberto.png"
-        }
+            const newStaff = {
+                id: this.state.id,
+                name: value.name,
+                doB: this.state.doB,
+                startDate: this.state.startDate,
+                departmentId: this.state.departmentId,
+                salaryScale: parseInt(value.salaryScale, 10),
+                annualLeave: parseInt(value.annualLeave, 10),
+                overTime: parseInt(value.overTime, 10),
+                image: "/assets/images/alberto.png"
+            }
             this.props.onAdd(newStaff);
         }
     }
@@ -157,11 +157,9 @@ class AddStaffFrom extends Component {
         const target = event.target;
         const value = target.value;
         const name = target.name;
-        const departmentId = target.departmentId;
 
         this.setState({
             [name]: value,
-            [departmentId]: value
         });
     }
 
@@ -182,12 +180,11 @@ class AddStaffFrom extends Component {
             this.state.doB,
             this.state.startDate,
         );
-        console.log(this.props)
         return (
             <div className="container-fluid">
-                    <div className="col-lg-2 col-md-4 col-sm-6">
-                        <Button outline onClick={this.toggleModal}><span className="fa fa-plus fa-lg"></span></Button>
-                    </div>
+                <div className="col-lg-2 col-md-4 col-sm-6">
+                    <Button outline onClick={this.toggleModal}><span className="fa fa-plus fa-lg"></span></Button>
+                </div>
                 <Modal isOpen={this.state.isModalOpen} toggle={this.toggleModal}>
                     <ModalHeader toggle={this.toggleModal}>Thêm nhân viên</ModalHeader>
                     <ModalBody>
@@ -238,24 +235,23 @@ class AddStaffFrom extends Component {
                                 <Label htmlFor="department" md={4}>Phòng ban</Label>
                                 <Col md={8}>
                                     <select id="department" name="departmentId" className="form-control"
-                                        value={this.state.departmentId}
-                                        onChange={this.handleInputChange}>
-                                        <option>Sale</option>
-                                        <option>HR</option>
-                                        <option>Marketing</option>
-                                        <option>IT</option>
-                                        <option>Finance</option>
+                                        onChange={(e) => this.handleInputChange(e)}>
+                                        <option value={"Dept01"}>Sale</option>
+                                        <option value={"Dept02"}>HR</option>
+                                        <option value={"Dept03"}>Marketing</option>
+                                        <option value={"Dept04"}>IT</option>
+                                        <option value={"Dept05"}>Finance</option>
                                     </select>
                                 </Col>
                             </Row>
                             <Row className="control-group">
                                 <Label htmlFor="salaryScale" md={4}>Hệ số lương</Label>
                                 <Col md={8}>
-                                <Control.text model=".salaryScale" id="salaryScale" name="salaryScale" defaultValue="0" className="form-control"
+                                    <Control.text model=".salaryScale" id="salaryScale" name="salaryScale" defaultValue="0" className="form-control"
                                         validators={{
                                             required,
                                             isNumber
-                                        }}/>
+                                        }} />
                                     <Errors
                                         model=".salaryScale"
                                         className="text-danger"
@@ -263,7 +259,7 @@ class AddStaffFrom extends Component {
                                         messages={{
                                             required: "Yêu cầu nhập",
                                             isNumber: "Phải là chữ số"
-                                        }}/>
+                                        }} />
                                 </Col>
                             </Row>
                             <Row className="control-group">
@@ -273,7 +269,7 @@ class AddStaffFrom extends Component {
                                         validators={{
                                             required,
                                             isNumber
-                                        }}/>
+                                        }} />
                                     <Errors
                                         model=".annualLeave"
                                         className="text-danger"
@@ -281,7 +277,7 @@ class AddStaffFrom extends Component {
                                         messages={{
                                             required: "Yêu cầu nhập",
                                             isNumber: "Phải là chữ số"
-                                        }}/>
+                                        }} />
                                 </Col>
                             </Row>
                             <Row className="control-group">
@@ -291,7 +287,7 @@ class AddStaffFrom extends Component {
                                         validators={{
                                             required,
                                             isNumber
-                                        }}/>
+                                        }} />
                                     <Errors
                                         model=".overTime"
                                         className="text-danger"
@@ -299,7 +295,7 @@ class AddStaffFrom extends Component {
                                         messages={{
                                             required: "Yêu cầu nhập",
                                             isNumber: "Phải là chữ số"
-                                        }}/>
+                                        }} />
                                 </Col>
                             </Row>
                             <Row className="control-group">
@@ -310,8 +306,6 @@ class AddStaffFrom extends Component {
                         </LocalForm>
                     </ModalBody>
                 </Modal>
-
-
             </div>
         );
     }
