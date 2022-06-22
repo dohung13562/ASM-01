@@ -11,7 +11,7 @@ const RenderSalary = ({salary}) => {
             <div>
                     <Card className="m-1" style={{ background: "#ADD8E6" }}>
                     <CardTitle className="m-2"><h2>{salary.name}</h2></CardTitle>
-                        <CardBody style={{ background: "#ADD8E6" }}>
+                        <CardBody style={{ background: "#ADD8E6" }}> 
                             <div >
                                 <h5>Mã nhân viên: {salary.id}</h5>
                                 <h5>Hệ số lương: {salary.salaryScale}</h5>
